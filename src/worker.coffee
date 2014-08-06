@@ -1,25 +1,18 @@
 {Channel} = require './channel'
 
-channel = new Channel()
+channelId = process.argv.pop()
+channel = new Channel channelId, process
 
-send = (type, data) ->
-  process.send JSON.stringify {type, data}
+channel.once 'run', ({fn, args}) ->
+  resolve = (results) ->
+    channel.send 'done', {results}
+    process.exit()
 
-process.on 'message', (json) ->
-  {type, data} = JSON.parse json
-  handlers[type] data
+  reject = (err) ->
+    channel.send 'done', {err}
+    process.exit -1
 
-handlers =
-  run: ({fn, args}) ->
-    resolve = (results) ->
-      send 'done', {results}
-      process.exit()
+  fn = eval "(#{fn})"
+  fn.apply null, args.concat [resolve, reject]
 
-    reject = (err) ->
-      send 'done', {err}
-      process.exit -1
-
-    fn = eval "(#{fn})"
-    fn.apply null, args.concat [resolve, reject]
-
-send 'ready'
+channel.send 'ready'

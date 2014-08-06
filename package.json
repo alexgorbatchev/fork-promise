@@ -1,0 +1,43 @@
+{
+  "name": "webworker-threads-promise",
+  "version": "0.0.1",
+  "description": "Awesome module",
+  "keywords": [],
+  "homepage": "https://github.com/alexgorbatchev/webworker-threads-promise",
+  "bugs": "https://github.com/alexgorbatchev/webworker-threads-promise/issues",
+  "author": {
+    "name": "Alex Gorbatchev",
+    "email": "",
+    "url": "https://github.com/alexgorbatchev"
+  },
+  "main": "./lib/webworker-threads-promise.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexgorbatchev/webworker-threads-promise.git"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "dependencies": {
+    "bluebird": "^2.2.2",
+    "webworker-threads": "^0.5.1"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "coffee-errors": "^0.8.5",
+    "coffee-script": "^1.7.1",
+    "gulp": "^3.8.6",
+    "gulp-coffee": "^2.1.1",
+    "gulp-istanbul": "^0.2.1",
+    "gulp-mocha": "^0.5.1",
+    "gulp-util": "^3.0.0",
+    "mocha": "^1.18.2",
+    "sinon": "^1.9.1",
+    "sinon-chai": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
+  },
+  "license": "MIT"
+}
