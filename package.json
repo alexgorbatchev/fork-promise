@@ -1,8 +1,13 @@
 {
   "name": "fork-promise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Executes code in a forked Node.js process and returns a Bluebird promise",
-  "keywords": ["fork", "process", "cpu", "promises"],
+  "keywords": [
+    "fork",
+    "process",
+    "cpu",
+    "promises"
+  ],
   "homepage": "https://github.com/alexgorbatchev/fork-promise",
   "bugs": "https://github.com/alexgorbatchev/fork-promise/issues",
   "author": {
