@@ -1,19 +1,19 @@
 {
-  "name": "webworker-threads-promise",
+  "name": "fork-promise",
   "version": "0.0.1",
   "description": "Awesome module",
   "keywords": [],
-  "homepage": "https://github.com/alexgorbatchev/webworker-threads-promise",
-  "bugs": "https://github.com/alexgorbatchev/webworker-threads-promise/issues",
+  "homepage": "https://github.com/alexgorbatchev/fork-promise",
+  "bugs": "https://github.com/alexgorbatchev/fork-promise/issues",
   "author": {
     "name": "Alex Gorbatchev",
     "email": "",
     "url": "https://github.com/alexgorbatchev"
   },
-  "main": "./lib/webworker-threads-promise.js",
+  "main": "./lib/fork-promise.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexgorbatchev/webworker-threads-promise.git"
+    "url": "https://github.com/alexgorbatchev/fork-promise.git"
   },
   "scripts": {
     "test": "gulp test"

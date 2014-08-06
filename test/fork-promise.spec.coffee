@@ -4,12 +4,12 @@ Promise = require 'bluebird'
 chai = require 'chai'
 sinon = require 'sinon'
 # using compiled JavaScript file here to be sure module works
-webworkerThreadsPromise = require '../lib/webworker-threads-promise.js'
+forkPromise = require '../lib/fork-promise.js'
 
 expect = chai.expect
 chai.use require 'sinon-chai'
 
-describe 'webworker-threads-promise', ->
+describe 'fork-promise', ->
   start = null
   duration = null
   results = null
@@ -26,10 +26,10 @@ describe 'webworker-threads-promise', ->
           setTimeout finish, 1000
 
         Promise.all [
-          webworkerThreadsPromise.run job, foo: 'bar1'
-          webworkerThreadsPromise.run job, foo: 'bar2'
-          webworkerThreadsPromise.run job, foo: 'bar3'
-          webworkerThreadsPromise.run job, foo: 'bar4'
+          forkPromise.run job, foo: 'bar1'
+          forkPromise.run job, foo: 'bar2'
+          forkPromise.run job, foo: 'bar3'
+          forkPromise.run job, foo: 'bar4'
         ]
         .then (r) ->
           results = r
@@ -57,7 +57,7 @@ describe 'webworker-threads-promise', ->
           finish = -> reject new Error 'Failed'
           setTimeout finish, 1000
 
-        webworkerThreadsPromise
+        forkPromise
           .run job
           .catch (err) ->
             results = err
@@ -83,7 +83,7 @@ describe 'webworker-threads-promise', ->
 
           setTimeout finish, 1000
 
-        webworkerThreadsPromise
+        forkPromise
           .run job
           .catch (err) ->
             results = err

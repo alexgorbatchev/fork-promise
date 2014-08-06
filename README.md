@@ -1,13 +1,13 @@
-# webworker-threads-promise
+# fork-promise
 
-[![Dependency status](https://david-dm.org/alexgorbatchev/webworker-threads-promise.svg)](https://david-dm.org/alexgorbatchev/webworker-threads-promise)
-[![devDependency Status](https://david-dm.org/alexgorbatchev/webworker-threads-promise/dev-status.svg)](https://david-dm.org/alexgorbatchev/webworker-threads-promise#info=devDependencies)
-[![Build Status](https://secure.travis-ci.org/alexgorbatchev/webworker-threads-promise.svg?branch=master)](https://travis-ci.org/alexgorbatchev/webworker-threads-promise)
-[![NPM](https://nodei.co/npm/webworker-threads-promise.svg)](https://npmjs.org/package/webworker-threads-promise)
+[![Dependency status](https://david-dm.org/alexgorbatchev/fork-promise.svg)](https://david-dm.org/alexgorbatchev/fork-promise)
+[![devDependency Status](https://david-dm.org/alexgorbatchev/fork-promise/dev-status.svg)](https://david-dm.org/alexgorbatchev/fork-promise#info=devDependencies)
+[![Build Status](https://secure.travis-ci.org/alexgorbatchev/fork-promise.svg?branch=master)](https://travis-ci.org/alexgorbatchev/fork-promise)
+[![NPM](https://nodei.co/npm/fork-promise.svg)](https://npmjs.org/package/fork-promise)
 
 ## Installation
 
-    npm install webworker-threads-promise
+    npm install fork-promise
 
 ## Usage Example
 
