@@ -14,14 +14,13 @@ describe 'webworker-threads-promise', ->
   duration = null
   results = null
 
-  before ->
-    duration = null
-    results = null
-    start = Date.now()
-
   describe '::run', ->
     describe 'multiple successfull jobs', ->
       before ->
+        duration = null
+        results = null
+        start = Date.now()
+
         job = (args, resolve, reject) ->
           finish = -> resolve myData: 'ok', args: args
           setTimeout finish, 1000
@@ -36,7 +35,7 @@ describe 'webworker-threads-promise', ->
           results = r
           duration = Date.now() - start
 
-      it 'takes about a second for all jobs', ->
+      it 'takes about a second', ->
         expect(Math.floor duration / 1000).to.eql 1
 
       it 'returns results', ->
@@ -47,3 +46,52 @@ describe 'webworker-threads-promise', ->
           {myData: 'ok', args: {foo: 'bar3'}}
           {myData: 'ok', args: {foo: 'bar4'}}
         ]
+
+    describe 'failed job', ->
+      before ->
+        duration = null
+        results = null
+        start = Date.now()
+
+        job = (resolve, reject) ->
+          finish = -> reject new Error 'Failed'
+          setTimeout finish, 1000
+
+        webworkerThreadsPromise
+          .run job
+          .catch (err) ->
+            results = err
+            duration = Date.now() - start
+
+      it 'takes about a second', ->
+        expect(Math.floor duration / 1000).to.eql 1
+
+      it 'returns error', ->
+        expect(results.message).to.eql 'Failed'
+        expect(results.stack).to.be.ok
+
+    describe 'runtime error', ->
+      before ->
+        duration = null
+        results = null
+        start = Date.now()
+
+        job = (resolve, reject) ->
+          finish = ->
+            i = null
+            i.foo()
+
+          setTimeout finish, 1000
+
+        webworkerThreadsPromise
+          .run job
+          .catch (err) ->
+            results = err
+            duration = Date.now() - start
+
+      it 'takes about a second', ->
+        expect(Math.floor duration / 1000).to.eql 1
+
+      it 'returns error', ->
+        expect(results.message).to.eql "Cannot call method \'foo\' of null"
+        expect(results.stack).to.be.ok

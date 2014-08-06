@@ -9,7 +9,11 @@ channel.once 'run', ({fn, args}) ->
     process.exit()
 
   reject = (err) ->
-    channel.send 'done', {err}
+    channel.send 'done', err: stack: err.stack,  message: err.message
+    process.exit -1
+
+  process.on 'uncaughtException', (err) ->
+    reject err
     process.exit -1
 
   fn = eval "(#{fn})"
