@@ -1,15 +1,41 @@
 # fork-promise
 
-[![Dependency status](https://david-dm.org/alexgorbatchev/fork-promise.svg)](https://david-dm.org/alexgorbatchev/fork-promise)
-[![devDependency Status](https://david-dm.org/alexgorbatchev/fork-promise/dev-status.svg)](https://david-dm.org/alexgorbatchev/fork-promise#info=devDependencies)
-[![Build Status](https://secure.travis-ci.org/alexgorbatchev/fork-promise.svg?branch=master)](https://travis-ci.org/alexgorbatchev/fork-promise)
-[![NPM](https://nodei.co/npm/fork-promise.svg)](https://npmjs.org/package/fork-promise)
+[![GitTip](http://img.shields.io/gittip/alexgorbatchev.svg?style=flat)](https://www.gittip.com/alexgorbatchev/)
+[![Dependency status](http://img.shields.io/david/alexgorbatchev/fork-promise.svg?style=flat)](https://david-dm.org/alexgorbatchev/fork-promise)
+[![devDependency Status](http://img.shields.io/dev/alexgorbatchev/fork-promise.svg?style=flat)](https://david-dm.org/alexgorbatchev/fork-promise#info=devDependencies)
+[![Build Status](http://img.shields.io/alexgorbatchev/fork-promise.svg?style=flat&branch=master)](https://travis-ci.org/alexgorbatchev/fork-promise)
+
+[![NPM](https://nodei.co/npm/fork-promise.svg?style=flat)](https://npmjs.org/package/fork-promise)
+
+Executes code in a forked Node.js process and returns a [Bluebird](https://github.com/petkaantonov/bluebird) promise. This is useful for parallelizing heavy tasks and taking advantage of multiple CPUs/cores.
+
+Please note, this is only useful for splitting up long running tasks because [according to the doc](http://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options):
+
+> These child Nodes are still whole new instances of V8. Assume at least 30ms startup and 10mb memory for each new Node. That is, you cannot create many thousands of them.
 
 ## Installation
 
     npm install fork-promise
 
 ## Usage Example
+
+In the example below the `job` function will be executed in a forked process. Please note there is parent scope access and the `job` function is executed in the global context of the new process.
+
+```javascript
+var forkPromise = require('fork-promise');
+
+function job(arg1, arg2, resolve, reject) {
+  setTimeout(function() {
+    resolve({prop: 'value'});
+  }, 500);
+}
+
+forkPromise
+  .run(job, ['arg1', 'arg2'])
+  .then(function(results) {
+    console.log(results.prop);
+  });
+```
 
 ## Testing
 
