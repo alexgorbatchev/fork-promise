@@ -2,8 +2,8 @@
 
 [![GitTip](http://img.shields.io/gittip/alexgorbatchev.svg?style=flat)](https://www.gittip.com/alexgorbatchev/)
 [![Dependency status](http://img.shields.io/david/alexgorbatchev/fork-promise.svg?style=flat)](https://david-dm.org/alexgorbatchev/fork-promise)
-[![devDependency Status](http://img.shields.io/dev/alexgorbatchev/fork-promise.svg?style=flat)](https://david-dm.org/alexgorbatchev/fork-promise#info=devDependencies)
-[![Build Status](http://img.shields.io/alexgorbatchev/fork-promise.svg?style=flat&branch=master)](https://travis-ci.org/alexgorbatchev/fork-promise)
+[![devDependency Status](http://img.shields.io/david/dev/alexgorbatchev/fork-promise.svg?style=flat)](https://david-dm.org/alexgorbatchev/fork-promise#info=devDependencies)
+[![Build Status](http://img.shields.io/travis/alexgorbatchev/fork-promise.svg?style=flat&branch=master)](https://travis-ci.org/alexgorbatchev/fork-promise)
 
 [![NPM](https://nodei.co/npm/fork-promise.svg?style=flat)](https://npmjs.org/package/fork-promise)
 
