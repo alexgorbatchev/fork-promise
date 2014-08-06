@@ -1,6 +1,6 @@
 {fork} = require 'child_process'
 Promise = require 'bluebird'
-{Channel} = require './channel'
+{ProcessChannel} = require 'process-channel'
 
 run = (fn, args...) ->
   new Promise (resolve, reject) ->
@@ -8,7 +8,7 @@ run = (fn, args...) ->
     results = null
     channelId = Math.round Math.random() * 999999999
     worker = fork "#{__dirname}/worker.js", [channelId]
-    channel = new Channel channelId, worker
+    channel = new ProcessChannel worker, channelId
 
     channel.once 'ready', ->
       channel.send 'run', fn: fn.toString(), args: args

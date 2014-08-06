@@ -1,7 +1,7 @@
-{Channel} = require './channel'
+{ProcessChannel} = require 'process-channel'
 
 channelId = process.argv.pop()
-channel = new Channel channelId, process
+channel = new ProcessChannel process, channelId
 
 channel.once 'run', ({fn, args}) ->
   resolve = (results) ->

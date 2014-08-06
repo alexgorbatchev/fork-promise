@@ -23,7 +23,8 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "bluebird": "^2.2.2"
+    "bluebird": "^2.2.2",
+    "process-channel": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
