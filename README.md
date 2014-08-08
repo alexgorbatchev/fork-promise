@@ -24,9 +24,9 @@ In the example below the `job` function will be executed in a forked process. Pl
 ```javascript
 var forkPromise = require('fork-promise');
 
-function job(arg1, arg2, resolve, reject) {
+function job(arg1, arg2, done) {
   setTimeout(function() {
-    resolve({prop: 'value'});
+    done(null, {prop: 'value'});
   }, 500);
 }
 
@@ -59,6 +59,9 @@ process.once('uncaughtException', function(err) {
 
 // Do work and when done, call:
 channel.send('done', resultsObject);
+
+// Need to exit because we have event handler on `process`
+process.exit();
 ```
 
 ### fn(function, args) -> Promise
@@ -70,10 +73,10 @@ var forkPromise = require('fork-promise');
 
 var myVar = 123;
 
-function job(arg1, arg2, resolve, reject) {
+function job(arg1, arg2, done) {
   // >>>> NO ACCESS TO myVar HERE <<<<
   setTimeout(function() {
-    resolve({prop: 'value'});
+    done(null, {prop: 'value'});
   }, 500);
 }
 

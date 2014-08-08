@@ -14,4 +14,5 @@ setTimeout(function() {
     throw new Error('Failed');
 
   channel.send('done', {myData: 'ok', args: opts.args});
+  process.exit();
 }, 1000);

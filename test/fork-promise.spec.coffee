@@ -69,8 +69,8 @@ describe 'fork-promise', ->
         results = null
         start = Date.now()
 
-        job = (args, resolve, reject) ->
-          finish = -> resolve myData: 'ok', args: args
+        job = (args, done) ->
+          finish = -> done null, myData: 'ok', args: args
           setTimeout finish, 1000
 
         Promise.all [
@@ -101,8 +101,8 @@ describe 'fork-promise', ->
         results = null
         start = Date.now()
 
-        job = (resolve, reject) ->
-          finish = -> reject new Error 'Failed'
+        job = (done) ->
+          finish = -> done new Error 'Failed'
           setTimeout finish, 1000
 
         forkPromise
@@ -124,7 +124,7 @@ describe 'fork-promise', ->
         results = null
         start = Date.now()
 
-        job = (resolve, reject) ->
+        job = (done) ->
           finish = ->
             i = null
             i.foo()

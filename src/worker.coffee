@@ -6,15 +6,15 @@ channel = new ProcessChannel process, channelId
 {fn, args} = args
 args ?= []
 
-resolve = (results) ->
+callback = (err, results) ->
+  if err?
+    channel.send 'error', stack: err.stack,  message: err.message
+    process.exit -1
+
   channel.send 'done', results
   process.exit()
 
-reject = (err) ->
-  channel.send 'error', stack: err.stack,  message: err.message
-  process.exit -1
-
-process.once 'uncaughtException', reject
+process.once 'uncaughtException', callback
 
 fn = eval "(#{fn})"
-fn.apply null, args.concat [resolve, reject]
+fn.apply null, args.concat [callback]
