@@ -14,6 +14,35 @@ describe 'fork-promise', ->
   duration = null
   results = null
 
+  describe '::file', ->
+    describe 'multiple successfull jobs', ->
+      before ->
+        duration = null
+        results = null
+        start = Date.now()
+
+        Promise.all [
+          forkPromise.file "#{__dirname}/worker.js", foo: 'bar1'
+          forkPromise.file "#{__dirname}/worker.js", foo: 'bar2'
+          forkPromise.file "#{__dirname}/worker.js", foo: 'bar3'
+          forkPromise.file "#{__dirname}/worker.js", foo: 'bar4'
+        ]
+        .then (r) ->
+          results = r
+          duration = Date.now() - start
+
+      it 'takes about a second', ->
+        expect(Math.floor duration / 1000).to.eql 1
+
+      it 'returns results', ->
+        expect(results).to.have.length 4
+        expect(results).to.eql [
+          {myData: 'ok', args: {foo: 'bar1'}}
+          {myData: 'ok', args: {foo: 'bar2'}}
+          {myData: 'ok', args: {foo: 'bar3'}}
+          {myData: 'ok', args: {foo: 'bar4'}}
+        ]
+
   describe '::fn', ->
     describe 'multiple successfull jobs', ->
       before ->
