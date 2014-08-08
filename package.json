@@ -1,6 +1,6 @@
 {
   "name": "fork-promise",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Executes code in a forked Node.js process and returns a Bluebird promise",
   "keywords": [
     "fork",
