@@ -14,7 +14,7 @@ describe 'fork-promise', ->
   duration = null
   results = null
 
-  describe '::run', ->
+  describe '::fn', ->
     describe 'multiple successfull jobs', ->
       before ->
         duration = null
@@ -26,10 +26,10 @@ describe 'fork-promise', ->
           setTimeout finish, 1000
 
         Promise.all [
-          forkPromise.run job, foo: 'bar1'
-          forkPromise.run job, foo: 'bar2'
-          forkPromise.run job, foo: 'bar3'
-          forkPromise.run job, foo: 'bar4'
+          forkPromise.fn job, [foo: 'bar1']
+          forkPromise.fn job, [foo: 'bar2']
+          forkPromise.fn job, [foo: 'bar3']
+          forkPromise.fn job, [foo: 'bar4']
         ]
         .then (r) ->
           results = r
@@ -58,7 +58,7 @@ describe 'fork-promise', ->
           setTimeout finish, 1000
 
         forkPromise
-          .run job
+          .fn job
           .catch (err) ->
             results = err
             duration = Date.now() - start
@@ -84,7 +84,7 @@ describe 'fork-promise', ->
           setTimeout finish, 1000
 
         forkPromise
-          .run job
+          .fn job
           .catch (err) ->
             results = err
             duration = Date.now() - start

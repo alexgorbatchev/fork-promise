@@ -1,22 +1,22 @@
 {ProcessChannel} = require 'process-channel'
 
-channelId = process.argv.pop()
+{channelId, args} = JSON.parse process.argv.pop()
 channel = new ProcessChannel process, channelId
 
-channel.once 'run', ({fn, args}) ->
-  resolve = (results) ->
-    channel.send 'done', {results}
-    process.exit()
+{fn, args} = args
+args ?= []
 
-  reject = (err) ->
-    channel.send 'done', err: stack: err.stack,  message: err.message
-    process.exit -1
+resolve = (results) ->
+  channel.send 'done', {results}
+  process.exit()
 
-  process.on 'uncaughtException', (err) ->
-    reject err
-    process.exit -1
+reject = (err) ->
+  channel.send 'done', err: stack: err.stack,  message: err.message
+  process.exit -1
 
-  fn = eval "(#{fn})"
-  fn.apply null, args.concat [resolve, reject]
+process.once 'uncaughtException', (err) ->
+  reject err
+  process.exit -1
 
-channel.send 'ready'
+fn = eval "(#{fn})"
+fn.apply null, args.concat [resolve, reject]

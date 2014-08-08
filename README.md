@@ -31,7 +31,7 @@ function job(arg1, arg2, resolve, reject) {
 }
 
 forkPromise
-  .run(job, ['arg1', 'arg2'])
+  .fn(job, ['arg1', 'arg2'])
   .then(function(results) {
     console.log(results.prop);
   });

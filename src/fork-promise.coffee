@@ -2,16 +2,17 @@
 Promise = require 'bluebird'
 {ProcessChannel} = require 'process-channel'
 
-run = (fn, args...) ->
+start = (workerScript, args) ->
+  channelId = Math.round Math.random() * 999999999
+  worker = fork workerScript, [JSON.stringify {channelId, args}]
+  channel = new ProcessChannel worker, channelId
+  {worker, channel}
+
+file = (workerScript, args) ->
   new Promise (resolve, reject) ->
     err = null
     results = null
-    channelId = Math.round Math.random() * 999999999
-    worker = fork "#{__dirname}/worker.js", [channelId]
-    channel = new ProcessChannel worker, channelId
-
-    channel.once 'ready', ->
-      channel.send 'run', fn: fn.toString(), args: args
+    {worker, channel} = start workerScript, args
 
     channel.once 'done', (data) ->
       {err, results} = data
@@ -20,4 +21,7 @@ run = (fn, args...) ->
       err ?= new Error "Exit code: #{exitCode}" if exitCode isnt 0
       if err? then reject err else resolve results
 
-module.exports = {run}
+fn = (workerFunction, args, workerScript = "#{__dirname}/worker.js") ->
+  file workerScript, {args, fn: workerFunction.toString()}
+
+module.exports = {fn, file}
