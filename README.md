@@ -37,6 +37,53 @@ forkPromise
   });
 ```
 
+## API
+
+### file(scriptFile, args) -> Promise
+
+Executes a `scriptFile` passing in `args` via JSON string and returns a `Promise`. The script file has to implement the following interface:
+
+```javascript
+var ProcessChannel = require('process-channel').ProcessChannel;
+var opts = JSON.parse(process.argv.pop());
+var channel = new ProcessChannel(process, opts.channelId);
+
+process.once('uncaughtException', function(err) {
+  // Have to assemble an object that looks like `Error` because
+  // instances of `Error` doesn't stringify well
+  channel.send('error', {stack: err.stack, message: err.message});
+  process.exit(-1);
+});
+
+// opts.args is the JSON parsed copy of `args`
+
+// Do work and when done, call:
+channel.send('done', resultsObject);
+```
+
+### fn(function, args) -> Promise
+
+Executes `function` in a forked process applying `args` to it (which means `args` must be an array or null). **Please note that `function` doesn't have access to the outside scope because it's stringified and passed to another process.**
+
+```javascript
+var forkPromise = require('fork-promise');
+
+var myVar = 123;
+
+function job(arg1, arg2, resolve, reject) {
+  // >>>> NO ACCESS TO myVar HERE <<<<
+  setTimeout(function() {
+    resolve({prop: 'value'});
+  }, 500);
+}
+
+forkPromise
+  .fn(job, ['arg1', 'arg2'])
+  .then(function(results) {
+    console.log(results.prop);
+  });
+```
+
 ## Testing
 
     npm test

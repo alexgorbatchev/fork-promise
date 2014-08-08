@@ -1,22 +1,17 @@
 var ProcessChannel = require('process-channel').ProcessChannel;
-var params = JSON.parse(process.argv.pop());
-var channelId = params.channelId;
-var args = params.args;
-var channel = new ProcessChannel(process, params.channelId);
+var opts = JSON.parse(process.argv.pop());
+var channel = new ProcessChannel(process, opts.channelId);
 
-reject = function(err) {
-  channel.send('done', {
-    err: {
-      stack: err.stack,
-      message: err.message
-    }
-  });
-  return process.exit(-1);
-};
+process.once('uncaughtException', function(err) {
+  // Have to assemble an object that looks like `Error` because
+  // instances of `Error` doesn't stringify well
+  channel.send('error', {stack: err.stack, message: err.message});
+  process.exit(-1);
+});
 
 setTimeout(function() {
-  channel.send('done', {
-    results: {myData: 'ok', args: args}
-  });
-  return process.exit();
+  if(opts.args.triggerError)
+    throw new Error('Failed');
+
+  channel.send('done', {myData: 'ok', args: opts.args});
 }, 1000);

@@ -43,6 +43,25 @@ describe 'fork-promise', ->
           {myData: 'ok', args: {foo: 'bar4'}}
         ]
 
+    describe 'failed job', ->
+      before ->
+        duration = null
+        results = null
+        start = Date.now()
+
+        forkPromise
+          .file "#{__dirname}/worker.js", triggerError: true
+          .catch (err) ->
+            results = err
+            duration = Date.now() - start
+
+      it 'takes about a second', ->
+        expect(Math.floor duration / 1000).to.eql 1
+
+      it 'returns error', ->
+        expect(results.message).to.eql 'Failed'
+        expect(results.stack).to.be.ok
+
   describe '::fn', ->
     describe 'multiple successfull jobs', ->
       before ->
